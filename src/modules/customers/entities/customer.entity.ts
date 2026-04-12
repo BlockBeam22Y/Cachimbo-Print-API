@@ -15,8 +15,5 @@ export class Customer {
     phone: string;
 
     @Column()
-    address: string;
-
-    @Column()
     password: string;
 }

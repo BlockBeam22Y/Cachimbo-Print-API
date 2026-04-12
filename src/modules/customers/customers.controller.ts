@@ -1,5 +1,7 @@
-import { Controller, Get } from "@nestjs/common";
+import { Body, Controller, Get, Post } from "@nestjs/common";
 import { CustomersService } from "./customers.service";
+import { CreateCustomerDto } from "./dtos/createCustomer.dto";
+import { LoginCustomerDto } from "./dtos/loginCustomer.dto";
 
 @Controller('customers')
 export class CustomersController {
@@ -10,5 +12,22 @@ export class CustomersController {
     @Get()
     async getCustomers() {
         return this.customersService.getCustomers();
+    }
+
+    @Post('/signup')
+    async signup(@Body() customerData: CreateCustomerDto) {
+        return this.customersService.createCustomer(customerData);
+    }
+
+    @Post('/login')
+    async login(@Body() loginData: LoginCustomerDto) {
+        const { email, password } = loginData;
+
+        const customer = await this.customersService.loginCustomer(email, password);
+
+        return {
+            login: customer !== null,
+            customer,
+        };
     }
 }
