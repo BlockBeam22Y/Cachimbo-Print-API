@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Customer } from "./entities/customer.entity";
 import { Repository } from "typeorm";
@@ -14,6 +14,15 @@ export class CustomersService {
 
     async getCustomers() {
         return this.customersRepository.find();
+    }
+
+    async getCustomerById(id: string) {
+        const customer = await this.customersRepository.findOneBy({ id });
+
+        if (!customer)
+            throw new NotFoundException('Customer not found');
+
+        return customer;
     }
 
     async createCustomer(customerData: CreateCustomerDto) {

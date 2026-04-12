@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from "@nestjs/common";
+import { Body, Controller, Get, Param, Post } from "@nestjs/common";
 import { CustomersService } from "./customers.service";
 import { CreateCustomerDto } from "./dtos/createCustomer.dto";
 import { LoginCustomerDto } from "./dtos/loginCustomer.dto";
@@ -12,6 +12,11 @@ export class CustomersController {
     @Get()
     async getCustomers() {
         return this.customersService.getCustomers();
+    }
+
+    @Get('/:id')
+    async getCustomerById(@Param('id') id: string) {
+        return this.customersService.getCustomerById(id);
     }
 
     @Post('/signup')
