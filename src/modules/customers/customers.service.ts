@@ -3,6 +3,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { Customer } from "./entities/customer.entity";
 import { Repository } from "typeorm";
 import { CreateCustomerDto } from "./dtos/createCustomer.dto";
+import { hash, compare } from "bcrypt";
 
 @Injectable()
 export class CustomersService {
@@ -16,11 +17,13 @@ export class CustomersService {
     }
 
     async createCustomer(customerData: CreateCustomerDto) {
+        const hashedPassword = await hash(customerData.password, 10);
+
         const customer = this.customersRepository.create({
             name: customerData.name,
             email: customerData.email,
             phone: customerData.phone,
-            password: customerData.password,
+            password: hashedPassword,
         });
         
         return this.customersRepository.save(customer);
@@ -29,9 +32,9 @@ export class CustomersService {
     async loginCustomer(email: string, password: string) {
         const customer = await this.customersRepository.findOneBy({ email });
 
-        if (customer && customer.password === password)
+        if (customer && await compare(password, customer.password))
             return customer;
-        else
-            return null;
+        
+        return null;
     }
 }
