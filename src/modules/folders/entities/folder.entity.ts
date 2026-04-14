@@ -1,6 +1,7 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { FolderColor } from "./folderColor.entity";
 import { Order } from "../../orders/entities/order.entity";
+import { Document } from "../../documents/entities/document.entity";
 
 @Entity('Folder')
 export class Folder {
@@ -23,4 +24,7 @@ export class Folder {
     @ManyToOne(() => Order, (order) => order.folders)
     @JoinColumn({ name: 'orderId' })
     order: Order;
+    
+    @OneToMany(() => Document, (document) => document.folder)
+    documents: Document[];
 }

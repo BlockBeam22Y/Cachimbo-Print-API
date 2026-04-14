@@ -7,6 +7,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { db } from './config/envs';
 import { OrdersModule } from './modules/orders/orders.module';
 import { FoldersModule } from './modules/folders/folders.module';
+import { DocumentsModule } from './modules/documents/documents.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { FoldersModule } from './modules/folders/folders.module';
     CustomersModule,
     OrdersModule,
     FoldersModule,
+    DocumentsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
