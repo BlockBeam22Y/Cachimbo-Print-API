@@ -3,6 +3,8 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { Folder } from "../entities/folder.entity";
 import { Repository } from "typeorm";
 import { FolderColor } from "../entities/folderColor.entity";
+import { CreateFolderDto } from "../dtos/createFolder.dto";
+import { Order } from "../../orders/entities/order.entity";
 
 @Injectable()
 export class FoldersService {
@@ -15,5 +17,17 @@ export class FoldersService {
 
     async getFolders() {
         return this.foldersRepository.find();
+    }
+
+    async createFolder(folderData: CreateFolderDto, color: FolderColor, order: Order) {
+        const folder = this.foldersRepository.create({
+            name: folderData.name,
+            copies: folderData.copies,
+            price: 0,
+            color,
+            order,
+        });
+
+        return this.foldersRepository.save(folder);
     }
 }

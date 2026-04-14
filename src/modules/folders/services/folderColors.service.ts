@@ -1,4 +1,4 @@
-import { Injectable, OnModuleInit } from "@nestjs/common";
+import { Injectable, NotFoundException, OnModuleInit } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { FolderColor } from "../entities/folderColor.entity";
 import { Repository } from "typeorm";
@@ -25,5 +25,14 @@ export class FolderColorsService implements OnModuleInit {
                 unitPrice: 30,
             },
         ]);
+    }
+
+    async getColorByName(name: ColorName) {
+        const color = await this.folderColorsRepository.findOneBy({ name });
+
+        if (!color)
+            throw new NotFoundException('Folder color not found');
+
+        return color;
     }
 }

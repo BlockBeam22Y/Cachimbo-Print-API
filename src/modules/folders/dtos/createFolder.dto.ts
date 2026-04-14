@@ -7,5 +7,5 @@ export class CreateFolderDto {
 
     colorName: ColorName;
 
-    orderId: string;
+    orderId: number;
 }
