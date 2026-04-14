@@ -7,3 +7,5 @@ export const db = {
     username: process.env.DB_USER,
     password: process.env.DB_PASS,
 };
+
+export const hostURL = process.env.HOST_API;
