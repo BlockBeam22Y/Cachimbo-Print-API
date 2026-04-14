@@ -6,6 +6,7 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { db } from './config/envs';
 import { OrdersModule } from './modules/orders/orders.module';
+import { FoldersModule } from './modules/folders/folders.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { OrdersModule } from './modules/orders/orders.module';
     }),
     CustomersModule,
     OrdersModule,
+    FoldersModule,
   ],
   controllers: [AppController],
   providers: [AppService],
