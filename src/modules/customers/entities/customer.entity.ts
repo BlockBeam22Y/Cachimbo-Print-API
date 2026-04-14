@@ -15,7 +15,7 @@ export class Customer {
     @Column()
     phone: string;
 
-    @Column()
+    @Column({ select: false })
     password: string;
     
     @OneToMany(() => Order, (order) => order.customer)

@@ -39,7 +39,12 @@ export class CustomersService {
     }
 
     async loginCustomer(email: string, password: string) {
-        const customer = await this.customersRepository.findOneBy({ email });
+        const customer = await this.customersRepository.findOne({
+            where: { email },
+            select: {
+                password: true,
+            },
+        });
 
         if (customer && await compare(password, customer.password))
             return customer;
