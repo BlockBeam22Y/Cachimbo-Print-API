@@ -8,7 +8,6 @@ import { db, rootPath } from './config/envs';
 import { OrdersModule } from './modules/orders/orders.module';
 import { FoldersModule } from './modules/folders/folders.module';
 import { DocumentsModule } from './modules/documents/documents.module';
-import { MulterModule } from '@nestjs/platform-express';
 import { FilesModule } from './modules/files/files.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';

@@ -2,7 +2,7 @@ import { Controller, Get, Inject, Post, UploadedFiles, UseInterceptors } from "@
 import { DocumentsService } from "./documents.service";
 import { FilesInterceptor } from "@nestjs/platform-express";
 import { IFilesService } from "../files/interfaces/filesService.interface";
-import { diskStorage } from 'Multer';
+import { diskStorage } from 'multer';
 import { fileNamer } from "../files/helpers/fileNamer.helper";
 import { documentFileFilter } from "./helpers/documentFileFilter.helper";
 import { join } from "path";
