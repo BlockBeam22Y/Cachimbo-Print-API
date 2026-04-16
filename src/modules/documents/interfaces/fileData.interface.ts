@@ -1,5 +1,7 @@
 export class IFileData {
-    file: Express.Multer.File;
+    id: string;
+    name: string;
+    pages: number;
     fileUrl: string;
     previewUrl: string;
 }

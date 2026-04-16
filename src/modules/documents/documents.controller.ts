@@ -5,6 +5,8 @@ import { IFilesService } from "../files/interfaces/filesService.interface";
 import { diskStorage } from 'Multer';
 import { fileNamer } from "../files/helpers/fileNamer.helper";
 import { documentFileFilter } from "./helpers/documentFileFilter.helper";
+import { join } from "path";
+import { rootPath } from "../../config/envs";
 
 @Controller('documents')
 export class DocumentsController {
@@ -25,7 +27,7 @@ export class DocumentsController {
             fileFilter: documentFileFilter,
             storage: diskStorage({
                 filename: fileNamer,
-                destination: './.tmp/documents',
+                destination: join(rootPath, '/.tmp/documents'),
             }),
         }),
     )
@@ -34,14 +36,9 @@ export class DocumentsController {
     ) {
         const filesData = await Promise.all(
             files.map(async (file) => {
-                const fileUrl = await this.filesService.saveFile(file);
-                const previewUrl = await this.filesService.generatePreview(file);
+                const fileData = await this.filesService.saveFile(file);
 
-                return {
-                    file,
-                    fileUrl,
-                    previewUrl,
-                };
+                return fileData;
             }),
         );
 

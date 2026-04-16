@@ -9,3 +9,5 @@ export const db = {
 };
 
 export const hostURL = process.env.HOST_API;
+
+export const rootPath = process.cwd();

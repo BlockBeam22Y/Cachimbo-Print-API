@@ -4,7 +4,7 @@ import { AppService } from './app.service';
 import { CustomersModule } from './modules/customers/customers.module';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { db } from './config/envs';
+import { db, rootPath } from './config/envs';
 import { OrdersModule } from './modules/orders/orders.module';
 import { FoldersModule } from './modules/folders/folders.module';
 import { DocumentsModule } from './modules/documents/documents.module';
@@ -33,7 +33,7 @@ import { join } from 'path';
       subscribers: [],
     }),
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '../.tmp'),
+      rootPath: join(rootPath, '/.tmp'),
       serveRoot: '/files',
       serveStaticOptions: {
         extensions: ['pdf'],
