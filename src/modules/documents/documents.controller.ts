@@ -1,4 +1,4 @@
-import { Controller, Get, Inject, Post, UploadedFiles, UseInterceptors } from "@nestjs/common";
+import { Body, Controller, Get, Inject, Post, UploadedFiles, UseInterceptors } from "@nestjs/common";
 import { DocumentsService } from "./documents.service";
 import { FilesInterceptor } from "@nestjs/platform-express";
 import { IFilesService } from "../files/interfaces/filesService.interface";
@@ -7,6 +7,7 @@ import { fileNamer } from "../files/helpers/fileNamer.helper";
 import { documentFileFilter } from "./helpers/documentFileFilter.helper";
 import { join } from "path";
 import { rootPath } from "../../config/envs";
+import { FoldersService } from "../folders/services/folders.service";
 
 @Controller('documents')
 export class DocumentsController {
@@ -14,6 +15,7 @@ export class DocumentsController {
         private readonly documentsService: DocumentsService,
         @Inject(IFilesService)
         private readonly filesService: IFilesService,
+        private readonly foldersService: FoldersService,
     ) {}
 
     @Get()
@@ -33,7 +35,10 @@ export class DocumentsController {
     )
     async uploadDocuments(
         @UploadedFiles() files: Array<Express.Multer.File>,
+        @Body('folderId') folderId: string,
     ) {
+        const folder = await this.foldersService.getFolderById(folderId);
+        
         const filesData = await Promise.all(
             files.map(async (file) => {
                 const fileData = await this.filesService.saveFile(file);
@@ -42,6 +47,6 @@ export class DocumentsController {
             }),
         );
 
-        return this.documentsService.uploadDocuments(filesData);
+        return this.documentsService.uploadDocuments(filesData, folder);
     }
 }

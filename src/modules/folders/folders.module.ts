@@ -20,5 +20,6 @@ import { OrdersModule } from "../orders/orders.module";
         FoldersService,
         FolderColorsService,
     ],
+    exports: [FoldersService],
 })
 export class FoldersModule {}

@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Folder } from "../entities/folder.entity";
 import { Repository } from "typeorm";
@@ -17,6 +17,15 @@ export class FoldersService {
 
     async getFolders() {
         return this.foldersRepository.find();
+    }
+
+    async getFolderById(id: string) {
+        const folder = await this.foldersRepository.findOneBy({ id });
+
+        if (!folder)
+            throw new NotFoundException('Folder not found');
+
+        return folder;
     }
 
     async createFolder(folderData: CreateFolderDto, color: FolderColor, order: Order) {
