@@ -5,6 +5,7 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 import { Document } from "./entities/document.entity";
 import { FilesModule } from "../files/files.module";
 import { FoldersModule } from "../folders/folders.module";
+import { OrdersModule } from "../orders/orders.module";
 
 @Module({
     imports: [
@@ -13,6 +14,7 @@ import { FoldersModule } from "../folders/folders.module";
         ]),
         FilesModule,
         FoldersModule,
+        OrdersModule,
     ],
     controllers: [DocumentsController],
     providers: [DocumentsService],

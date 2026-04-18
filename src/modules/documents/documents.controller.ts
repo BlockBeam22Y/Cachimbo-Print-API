@@ -8,6 +8,7 @@ import { documentFileFilter } from "./helpers/documentFileFilter.helper";
 import { join } from "path";
 import { rootPath } from "../../config/envs";
 import { FoldersService } from "../folders/services/folders.service";
+import { OrdersService } from "../orders/orders.service";
 
 @Controller('documents')
 export class DocumentsController {
@@ -16,6 +17,7 @@ export class DocumentsController {
         @Inject(IFilesService)
         private readonly filesService: IFilesService,
         private readonly foldersService: FoldersService,
+        private readonly ordersService: OrdersService,
     ) {}
 
     @Get()
@@ -47,6 +49,15 @@ export class DocumentsController {
             }),
         );
 
-        return this.documentsService.uploadDocuments(filesData, folder);
+        await this.documentsService.uploadDocuments(filesData, folder);
+        
+        await this.foldersService.updateFolderPrice(folder.id);
+        await this.ordersService.updateOrderPrice(folder.order.id);
+
+        return {
+            updated: true,
+            folderId: folder.id,
+            orderId: folder.order.id,
+        };
     }
 }
