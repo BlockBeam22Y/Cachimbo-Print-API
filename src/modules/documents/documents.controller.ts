@@ -44,30 +44,38 @@ export class DocumentsController {
         @Body() documentData: UploadDocumentDto,
         @Req() req: Request,
     ) {
-        const { folderId } = documentData;
-        const user = req['user'];
+        try {
+            const { folderId } = documentData;
+            const user = req['user'];
+    
+            const folder = await this.foldersService.getFolderById(folderId);
+            if (folder.order.customer.id !== user.id)
+                throw new ForbiddenException('Forbidden access');
+            
+            const filesData = await Promise.all(
+                files.map(async (file) => {
+                    const fileData = await this.filesService.saveFile(file);
+    
+                    return fileData;
+                }),
+            );
+    
+            await this.documentsService.uploadDocuments(filesData, folder);
+            
+            await this.foldersService.updateFolderPrice(folder.id);
+            await this.ordersService.updateOrderPrice(folder.order.id);
+    
+            return {
+                uploadedFiles: filesData.length,
+                folderId: folder.id,
+                orderId: folder.order.id,
+            };
+        } catch(err) {
+            files.forEach(async (file) => {
+                await this.filesService.deleteFile(file);
+            });
 
-        const folder = await this.foldersService.getFolderById(folderId);
-        if (folder.order.customer.id !== user.id)
-            throw new ForbiddenException('Forbidden access');
-        
-        const filesData = await Promise.all(
-            files.map(async (file) => {
-                const fileData = await this.filesService.saveFile(file);
-
-                return fileData;
-            }),
-        );
-
-        await this.documentsService.uploadDocuments(filesData, folder);
-        
-        await this.foldersService.updateFolderPrice(folder.id);
-        await this.ordersService.updateOrderPrice(folder.order.id);
-
-        return {
-            uploadedFiles: filesData.length,
-            folderId: folder.id,
-            orderId: folder.order.id,
-        };
+            throw err;
+        }
     }
 }

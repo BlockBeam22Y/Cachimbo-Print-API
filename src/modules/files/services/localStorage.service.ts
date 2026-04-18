@@ -3,8 +3,9 @@ import { IFilesService } from "../interfaces/filesService.interface";
 import { join } from "path";
 import { hostURL, rootPath } from "../../../config/envs";
 import { IFileData } from "../../documents/interfaces/fileData.interface";
-import { mkdir, readFile, writeFile } from "fs/promises";
+import { mkdir, readFile, unlink, writeFile } from "fs/promises";
 import { load } from "@nutrient-sdk/node";
+import { existsSync } from "fs";
 
 @Injectable()
 export class LocalStorageService implements IFilesService, OnModuleInit {
@@ -40,5 +41,17 @@ export class LocalStorageService implements IFilesService, OnModuleInit {
             fileUrl: `${hostURL}/files/documents/${fileId}.pdf`,
             previewUrl: `${hostURL}/files/previews/${fileId}.webp`,
         };
+    }
+
+    async deleteFile(file: Express.Multer.File): Promise<void> {
+        const filePath = join(rootPath, '/.tmp/documents', file.filename);
+        if (existsSync(filePath))
+            await unlink(filePath);
+
+        const fileId = file.filename.split('.')[0];
+        const previewPath = join(rootPath, '/.tmp/previews', `${fileId}.webp`);
+
+        if (existsSync(previewPath))
+            await unlink(previewPath);
     }
 }
