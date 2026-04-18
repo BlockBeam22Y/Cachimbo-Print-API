@@ -21,18 +21,20 @@ export class CustomersController {
 
     @Post('/signup')
     async signup(@Body() customerData: CreateCustomerDto) {
-        return this.customersService.createCustomer(customerData);
+        await this.customersService.createCustomer(customerData);
+        
+        const { email, password } = customerData;
+        const token = await this.customersService.loginCustomer(email, password);
+
+        return { token };
     }
 
     @Post('/login')
     async login(@Body() loginData: LoginCustomerDto) {
         const { email, password } = loginData;
 
-        const customer = await this.customersService.loginCustomer(email, password);
+        const token = await this.customersService.loginCustomer(email, password);
 
-        return {
-            login: customer !== null,
-            customer,
-        };
+        return { token };
     }
 }

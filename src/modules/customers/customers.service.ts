@@ -1,15 +1,17 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
+import { BadRequestException, Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Customer } from "./entities/customer.entity";
 import { Repository } from "typeorm";
 import { CreateCustomerDto } from "./dtos/createCustomer.dto";
 import { hash, compare } from "bcrypt";
+import { JwtService } from "@nestjs/jwt";
 
 @Injectable()
 export class CustomersService {
     constructor(
         @InjectRepository(Customer)
         private readonly customersRepository: Repository<Customer>,
+        private readonly jwtService: JwtService,
     ) {}
 
     async getCustomers() {
@@ -35,20 +37,29 @@ export class CustomersService {
             password: hashedPassword,
         });
         
-        return this.customersRepository.save(customer);
+        await this.customersRepository.save(customer);
     }
 
     async loginCustomer(email: string, password: string) {
         const customer = await this.customersRepository.findOne({
             where: { email },
             select: {
+                id: true,
+                email: true,
                 password: true,
             },
         });
 
-        if (customer && await compare(password, customer.password))
-            return customer;
+        if (customer && await compare(password, customer.password)) {
+            const token = await this.jwtService.signAsync({
+                sub: customer.id,
+                id: customer.id,
+                email: customer.email,
+            });
+
+            return token;
+        }
         
-        return null;
+        throw new BadRequestException('Invalid login');
     }
 }
