@@ -1,6 +1,6 @@
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import { Customer } from "../../customers/entities/customer.entity";
-import { Folder } from "../../folders/entities/folder.entity";
+import { Customer } from "@modules/customers/entities/customer.entity";
+import { Folder } from "@modules/folders/entities/folder.entity";
 
 @Entity('Order')
 export class Order {

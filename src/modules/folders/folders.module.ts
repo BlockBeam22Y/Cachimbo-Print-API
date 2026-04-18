@@ -1,12 +1,12 @@
 import { Module } from "@nestjs/common";
-import { FoldersController } from "./folders.controller";
+import { FoldersController } from "@modules/folders/folders.controller";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import { Folder } from "./entities/folder.entity";
-import { FolderColor } from "./entities/folderColor.entity";
-import { FoldersService } from "./services/folders.service";
-import { FolderColorsService } from "./services/folderColors.service";
-import { OrdersModule } from "../orders/orders.module";
-import { AuthModule } from "../auth/auth.module";
+import { Folder } from "@modules/folders/entities/folder.entity";
+import { FolderColor } from "@modules/folders/entities/folderColor.entity";
+import { FoldersService } from "@modules/folders/services/folders.service";
+import { FolderColorsService } from "@modules/folders/services/folderColors.service";
+import { OrdersModule } from "@modules/orders/orders.module";
+import { AuthModule } from "@modules/auth/auth.module";
 
 @Module({
     imports: [

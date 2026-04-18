@@ -1,4 +1,4 @@
-import { ColorName } from "../interfaces/colorName.enum";
+import { ColorName } from "@modules/folders/interfaces/colorName.enum";
 
 export class CreateFolderDto {
     name: string;

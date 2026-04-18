@@ -1,5 +1,5 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
-import { Folder } from "../../folders/entities/folder.entity";
+import { Folder } from "@modules/folders/entities/folder.entity";
 
 @Entity('Document')
 export class Document {

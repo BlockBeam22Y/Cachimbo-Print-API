@@ -1,8 +1,8 @@
 import { BadRequestException, Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Customer } from "./entities/customer.entity";
+import { Customer } from "@modules/customers/entities/customer.entity";
 import { Repository } from "typeorm";
-import { CreateCustomerDto } from "./dtos/createCustomer.dto";
+import { CreateCustomerDto } from "@modules/customers/dtos/createCustomer.dto";
 import { hash, compare } from "bcrypt";
 import { JwtService } from "@nestjs/jwt";
 

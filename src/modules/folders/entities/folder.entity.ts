@@ -1,7 +1,7 @@
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import { FolderColor } from "./folderColor.entity";
-import { Order } from "../../orders/entities/order.entity";
-import { Document } from "../../documents/entities/document.entity";
+import { FolderColor } from "@modules/folders/entities/folderColor.entity";
+import { Order } from "@modules/orders/entities/order.entity";
+import { Document } from "@modules/documents/entities/document.entity";
 
 @Entity('Folder')
 export class Folder {

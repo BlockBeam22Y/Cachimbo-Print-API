@@ -1,8 +1,8 @@
 import { Injectable, NotFoundException, OnModuleInit } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { FolderColor } from "../entities/folderColor.entity";
+import { FolderColor } from "@modules/folders/entities/folderColor.entity";
 import { Repository } from "typeorm";
-import { ColorName } from "../interfaces/colorName.enum";
+import { ColorName } from "@modules/folders/interfaces/colorName.enum";
 
 @Injectable()
 export class FolderColorsService implements OnModuleInit {

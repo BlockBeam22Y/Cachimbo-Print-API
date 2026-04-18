@@ -1,9 +1,9 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Document } from "./entities/document.entity";
+import { Document } from "@modules/documents/entities/document.entity";
 import { Repository } from "typeorm";
-import { IFileData } from "./interfaces/fileData.interface";
-import { Folder } from "../folders/entities/folder.entity";
+import { IFileData } from "@modules/documents/interfaces/fileData.interface";
+import { Folder } from "@modules/folders/entities/folder.entity";
 
 @Injectable()
 export class DocumentsService {

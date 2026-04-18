@@ -1,9 +1,9 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Order } from "./entities/order.entity";
+import { Order } from "@modules/orders/entities/order.entity";
 import { Repository } from "typeorm";
-import { Customer } from "../customers/entities/customer.entity";
-import { OrderStatus } from "./interfaces/orderStatus.enum";
+import { Customer } from "@modules/customers/entities/customer.entity";
+import { OrderStatus } from "@modules/orders/interfaces/orderStatus.enum";
 
 @Injectable()
 export class OrdersService {

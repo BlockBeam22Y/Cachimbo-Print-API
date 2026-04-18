@@ -1,5 +1,5 @@
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
-import { ColorName } from "../interfaces/colorName.enum";
+import { ColorName } from "@modules/folders/interfaces/colorName.enum";
 
 @Entity('FolderColor')
 export class FolderColor {

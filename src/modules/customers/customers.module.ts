@@ -1,9 +1,9 @@
 import { Module } from "@nestjs/common";
-import { CustomersController } from "./customers.controller";
-import { CustomersService } from "./customers.service";
+import { CustomersController } from "@modules/customers/customers.controller";
+import { CustomersService } from "@modules/customers/customers.service";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import { Customer } from "./entities/customer.entity";
-import { AuthModule } from "../auth/auth.module";
+import { Customer } from "@modules/customers/entities/customer.entity";
+import { AuthModule } from "@modules/auth/auth.module";
 
 @Module({
     imports: [

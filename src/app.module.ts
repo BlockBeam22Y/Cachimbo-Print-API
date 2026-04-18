@@ -4,11 +4,11 @@ import { AppService } from './app.service';
 import { CustomersModule } from './modules/customers/customers.module';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { db, rootPath } from './config/envs';
-import { OrdersModule } from './modules/orders/orders.module';
-import { FoldersModule } from './modules/folders/folders.module';
-import { DocumentsModule } from './modules/documents/documents.module';
-import { FilesModule } from './modules/files/files.module';
+import { db, rootPath } from '@config/envs';
+import { OrdersModule } from '@modules/orders/orders.module';
+import { FoldersModule } from '@modules/folders/folders.module';
+import { DocumentsModule } from '@modules/documents/documents.module';
+import { FilesModule } from '@modules/files/files.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 

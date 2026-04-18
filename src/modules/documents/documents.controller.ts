@@ -1,17 +1,17 @@
 import { Body, Controller, ForbiddenException, Get, Inject, Post, Req, UploadedFiles, UseGuards, UseInterceptors } from "@nestjs/common";
-import { DocumentsService } from "./documents.service";
+import { DocumentsService } from "@modules/documents/documents.service";
 import { FilesInterceptor } from "@nestjs/platform-express";
-import { IFilesService } from "../files/interfaces/filesService.interface";
+import { IFilesService } from "@modules/files/interfaces/filesService.interface";
 import { diskStorage } from 'multer';
-import { fileNamer } from "../files/helpers/fileNamer.helper";
-import { documentFileFilter } from "./helpers/documentFileFilter.helper";
+import { fileNamer } from "@modules/files/helpers/fileNamer.helper";
+import { documentFileFilter } from "@modules/documents/helpers/documentFileFilter.helper";
 import { join } from "path";
-import { rootPath } from "../../config/envs";
-import { FoldersService } from "../folders/services/folders.service";
-import { OrdersService } from "../orders/orders.service";
+import { rootPath } from "@config/envs";
+import { FoldersService } from "@modules/folders/services/folders.service";
+import { OrdersService } from "@modules/orders/orders.service";
 import { Request } from "express";
-import { UploadDocumentDto } from "./dtos/uploadDocument.dto";
-import { AuthGuard } from "../auth/guards/auth.guard";
+import { UploadDocumentDto } from "@modules/documents/dtos/uploadDocument.dto";
+import { AuthGuard } from "@modules/auth/guards/auth.guard";
 
 @Controller('documents')
 export class DocumentsController {

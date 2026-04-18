@@ -1,4 +1,4 @@
-import { IFileData } from "../../documents/interfaces/fileData.interface";
+import { IFileData } from "@modules/documents/interfaces/fileData.interface";
 
 export interface IFilesService {
     saveFile(file: Express.Multer.File): Promise<IFileData>;

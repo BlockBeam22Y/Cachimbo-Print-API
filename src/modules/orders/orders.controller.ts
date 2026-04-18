@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Req, UseGuards } from "@nestjs/common";
-import { OrdersService } from "./orders.service";
-import { CustomersService } from "../customers/customers.service";
-import { AuthGuard } from "../auth/guards/auth.guard";
+import { OrdersService } from "@modules/orders/orders.service";
+import { CustomersService } from "@modules/customers/customers.service";
+import { AuthGuard } from "@modules/auth/guards/auth.guard";
 import { Request } from "express";
 
 @Controller('orders')

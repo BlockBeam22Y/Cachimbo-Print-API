@@ -1,6 +1,6 @@
 import { Module } from "@nestjs/common";
-import { IFilesService } from "./interfaces/filesService.interface";
-import { LocalStorageService } from "./services/localStorage.service";
+import { IFilesService } from "@modules/files/interfaces/filesService.interface";
+import { LocalStorageService } from "@modules/files/services/localStorage.service";
 
 @Module({
     imports: [],

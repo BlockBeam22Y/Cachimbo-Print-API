@@ -1,8 +1,8 @@
 import { Injectable, OnModuleInit } from "@nestjs/common";
-import { IFilesService } from "../interfaces/filesService.interface";
+import { IFilesService } from "@modules/files/interfaces/filesService.interface";
 import { join } from "path";
-import { hostURL, rootPath } from "../../../config/envs";
-import { IFileData } from "../../documents/interfaces/fileData.interface";
+import { hostURL, rootPath } from "@config/envs";
+import { IFileData } from "@modules/documents/interfaces/fileData.interface";
 import { mkdir, readFile, unlink, writeFile } from "fs/promises";
 import { load } from "@nutrient-sdk/node";
 import { existsSync } from "fs";

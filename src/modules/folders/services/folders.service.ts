@@ -1,11 +1,10 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Folder } from "../entities/folder.entity";
+import { Folder } from "@modules/folders/entities/folder.entity";
 import { Repository } from "typeorm";
-import { FolderColor } from "../entities/folderColor.entity";
-import { CreateFolderDto } from "../dtos/createFolder.dto";
-import { Order } from "../../orders/entities/order.entity";
-import { Document } from "../../documents/entities/document.entity";
+import { FolderColor } from "@modules/folders/entities/folderColor.entity";
+import { CreateFolderDto } from "@modules/folders/dtos/createFolder.dto";
+import { Order } from "@modules/orders/entities/order.entity";
 
 @Injectable()
 export class FoldersService {
