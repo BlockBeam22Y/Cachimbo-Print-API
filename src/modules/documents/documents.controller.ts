@@ -1,4 +1,4 @@
-import { Body, Controller, ForbiddenException, Get, Inject, Post, Req, UploadedFiles, UseGuards, UseInterceptors } from "@nestjs/common";
+import { Body, Controller, Delete, ForbiddenException, Get, Inject, Param, Post, Req, UploadedFiles, UseGuards, UseInterceptors } from "@nestjs/common";
 import { DocumentsService } from "@modules/documents/documents.service";
 import { FilesInterceptor } from "@nestjs/platform-express";
 import { IFilesService } from "@modules/files/interfaces/filesService.interface";
@@ -72,10 +72,33 @@ export class DocumentsController {
             };
         } catch(err) {
             files.forEach(async (file) => {
-                await this.filesService.deleteFile(file);
+                const fileId = file.filename.split('.')[0];
+
+                await this.filesService.deleteFile(fileId);
             });
 
             throw err;
         }
+    }
+    
+    @UseGuards(AuthGuard)
+    @Delete('/:id')
+    async deleteDocument(@Param('id') id: string, @Req() req: Request) {
+        const document = await this.documentsService.getDocumentById(id);
+        const user = req['user'];
+
+        if (document.folder.order.customer.id !== user.id)
+            throw new ForbiddenException('Forbidden access');
+
+        await this.documentsService.deleteDocument(document);
+        await this.filesService.deleteFile(document.id);
+
+        await this.foldersService.updateFolderPrice(document.folder.id);
+        await this.ordersService.updateOrderPrice(document.folder.order.id);
+
+        return {
+            deleted: true,
+            id,
+        };
     }
 }

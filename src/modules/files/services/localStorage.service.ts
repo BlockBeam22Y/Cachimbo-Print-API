@@ -43,14 +43,12 @@ export class LocalStorageService implements IFilesService, OnModuleInit {
         };
     }
 
-    async deleteFile(file: Express.Multer.File): Promise<void> {
-        const filePath = join(rootPath, '/.tmp/documents', file.filename);
+    async deleteFile(fileId: string): Promise<void> {
+        const filePath = join(rootPath, '/.tmp/documents', `${fileId}.pdf`);
         if (existsSync(filePath))
             await unlink(filePath);
 
-        const fileId = file.filename.split('.')[0];
         const previewPath = join(rootPath, '/.tmp/previews', `${fileId}.webp`);
-
         if (existsSync(previewPath))
             await unlink(previewPath);
     }

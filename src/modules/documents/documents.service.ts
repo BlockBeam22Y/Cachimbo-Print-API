@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Document } from "@modules/documents/entities/document.entity";
 import { Repository } from "typeorm";
@@ -16,6 +16,24 @@ export class DocumentsService {
         return this.documentsRepository.find();
     }
 
+    async getDocumentById(id: string) {
+        const document = await this.documentsRepository.findOne({
+            where: { id },
+            relations: {
+                folder: {
+                    order: {
+                        customer: true,
+                    },
+                },
+            },
+        });
+
+        if (!document)
+            throw new NotFoundException('Document not found');
+
+        return document;
+    }
+
     async uploadDocuments(filesData: IFileData[], folder: Folder) {
         const documents = filesData.map((fileData) => {
             const document = this.documentsRepository.create({
@@ -31,5 +49,9 @@ export class DocumentsService {
         });
 
         return this.documentsRepository.save(documents);
+    }
+
+    async deleteDocument(document: Document) {
+        await this.documentsRepository.delete(document.id);
     }
 }
