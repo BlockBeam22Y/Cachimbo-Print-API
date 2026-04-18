@@ -22,7 +22,9 @@ export class FoldersService {
         const folder = await this.foldersRepository.findOne({
             where: { id },
             relations: {
-                order: true,
+                order: {
+                    customer: true,
+                },
             },
         });
 

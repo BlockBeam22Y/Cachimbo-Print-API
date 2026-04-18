@@ -6,6 +6,7 @@ import { Document } from "./entities/document.entity";
 import { FilesModule } from "../files/files.module";
 import { FoldersModule } from "../folders/folders.module";
 import { OrdersModule } from "../orders/orders.module";
+import { AuthModule } from "../auth/auth.module";
 
 @Module({
     imports: [
@@ -15,6 +16,7 @@ import { OrdersModule } from "../orders/orders.module";
         FilesModule,
         FoldersModule,
         OrdersModule,
+        AuthModule,
     ],
     controllers: [DocumentsController],
     providers: [DocumentsService],

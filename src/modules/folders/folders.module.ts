@@ -6,6 +6,7 @@ import { FolderColor } from "./entities/folderColor.entity";
 import { FoldersService } from "./services/folders.service";
 import { FolderColorsService } from "./services/folderColors.service";
 import { OrdersModule } from "../orders/orders.module";
+import { AuthModule } from "../auth/auth.module";
 
 @Module({
     imports: [
@@ -14,6 +15,7 @@ import { OrdersModule } from "../orders/orders.module";
             FolderColor,
         ]),
         OrdersModule,
+        AuthModule,
     ],
     controllers: [FoldersController],
     providers: [

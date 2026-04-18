@@ -1,6 +1,5 @@
-import { Body, Controller, Get, Post, Req, UseGuards } from "@nestjs/common";
+import { Controller, Get, Post, Req, UseGuards } from "@nestjs/common";
 import { OrdersService } from "./orders.service";
-import { CreateOrderDto } from "./dtos/createOrder.dto";
 import { CustomersService } from "../customers/customers.service";
 import { AuthGuard } from "../auth/guards/auth.guard";
 import { Request } from "express";
@@ -19,11 +18,10 @@ export class OrdersController {
 
     @UseGuards(AuthGuard)
     @Post()
-    async createOrder(@Body() orderData: CreateOrderDto, @Req() req: Request) {
-        const { customerId } = orderData;
+    async createOrder(@Req() req: Request) {
+        const user = req['user'];
 
-        const customer = await this.customersService.getCustomerById(customerId);
-
+        const customer = await this.customersService.getCustomerById(user.id);
         return this.ordersService.createOrder(customer);
     }
 }

@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Inject, Post, UploadedFiles, UseInterceptors } from "@nestjs/common";
+import { Body, Controller, ForbiddenException, Get, Inject, Post, Req, UploadedFiles, UseGuards, UseInterceptors } from "@nestjs/common";
 import { DocumentsService } from "./documents.service";
 import { FilesInterceptor } from "@nestjs/platform-express";
 import { IFilesService } from "../files/interfaces/filesService.interface";
@@ -9,6 +9,9 @@ import { join } from "path";
 import { rootPath } from "../../config/envs";
 import { FoldersService } from "../folders/services/folders.service";
 import { OrdersService } from "../orders/orders.service";
+import { Request } from "express";
+import { UploadDocumentDto } from "./dtos/uploadDocument.dto";
+import { AuthGuard } from "../auth/guards/auth.guard";
 
 @Controller('documents')
 export class DocumentsController {
@@ -25,6 +28,7 @@ export class DocumentsController {
         return this.documentsService.getDocuments();
     }
 
+    @UseGuards(AuthGuard)
     @Post('/upload')
     @UseInterceptors(
         FilesInterceptor('files', 10, {
@@ -37,9 +41,15 @@ export class DocumentsController {
     )
     async uploadDocuments(
         @UploadedFiles() files: Array<Express.Multer.File>,
-        @Body('folderId') folderId: string,
+        @Body() documentData: UploadDocumentDto,
+        @Req() req: Request,
     ) {
+        const { folderId } = documentData;
+        const user = req['user'];
+
         const folder = await this.foldersService.getFolderById(folderId);
+        if (folder.order.customer.id !== user.id)
+            throw new ForbiddenException('Forbidden access');
         
         const filesData = await Promise.all(
             files.map(async (file) => {
@@ -55,7 +65,7 @@ export class DocumentsController {
         await this.ordersService.updateOrderPrice(folder.order.id);
 
         return {
-            updated: true,
+            uploadedFiles: filesData.length,
             folderId: folder.id,
             orderId: folder.order.id,
         };

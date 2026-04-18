@@ -4,7 +4,6 @@ import { Order } from "./entities/order.entity";
 import { Repository } from "typeorm";
 import { Customer } from "../customers/entities/customer.entity";
 import { OrderStatus } from "./interfaces/orderStatus.enum";
-import { Folder } from "../folders/entities/folder.entity";
 
 @Injectable()
 export class OrdersService {
@@ -18,7 +17,12 @@ export class OrdersService {
     }
 
     async getOrderById(id: number) {
-        const order = await this.ordersRepository.findOneBy({ id });
+        const order = await this.ordersRepository.findOne({
+            where: { id },
+            relations: {
+                customer: true,
+            },
+        });
 
         if (!order)
             throw new NotFoundException('Order not found');
