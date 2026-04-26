@@ -39,7 +39,7 @@ export class OrdersService {
         return order;
     }
 
-    async createOrder(customer: Customer) {
+    async createOrder(customer?: Customer) {
         const order = this.ordersRepository.create({
             totalPrice: 0,
             status: OrderStatus.PENDING,
@@ -51,6 +51,7 @@ export class OrdersService {
 
     async updateOrderStatus(order: Order, status: OrderStatus) {
         if (
+            order.detail &&
             (order.status === OrderStatus.PENDING && status === OrderStatus.PAID)
         ) {
             await this.ordersRepository.update(order.id, {

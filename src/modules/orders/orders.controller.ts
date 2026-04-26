@@ -5,6 +5,7 @@ import { AuthGuard } from "@modules/auth/guards/auth.guard";
 import { Request } from "express";
 import { IFilesService } from "@modules/files/interfaces/filesService.interface";
 import { OrderStatus } from "@modules/orders/interfaces/orderStatus.enum";
+import { IsPublic } from "@modules/auth/decorators/isPublic.decorator";
 
 @Controller('orders')
 export class OrdersController {
@@ -20,22 +21,17 @@ export class OrdersController {
         return this.ordersService.getOrders();
     }
 
-    // @UseGuards(AuthGuard)
-    // @Post()
-    // async createOrder(@Req() req: Request) {
-    //     const user = req['user'];
-
-    //     const customer = await this.customersService.getCustomerById(user.id);
-    //     return this.ordersService.createOrder(customer);
-    // }
-
+    @IsPublic()
     @UseGuards(AuthGuard)
     @Delete('/:id')
     async deleteOrder(@Param('id') id: number, @Req() req: Request) {
         const order = await this.ordersService.getOrderById(id);
         const user = req['user'];
 
-        if (order.customer.id !== user.id)
+        if (
+            order.customer &&
+            order.customer.id !== user?.id
+        )
             throw new ForbiddenException('Forbidden access');
 
         if (order.status !== OrderStatus.PENDING)

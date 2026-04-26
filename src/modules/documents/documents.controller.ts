@@ -18,6 +18,7 @@ import { Order } from "@modules/orders/entities/order.entity";
 import { CustomersService } from "@modules/customers/customers.service";
 import { FolderColorsService } from "@modules/folders/services/folderColors.service";
 import { unlink } from "fs/promises";
+import { IsPublic } from "@modules/auth/decorators/isPublic.decorator";
 
 @Controller('documents')
 export class DocumentsController {
@@ -36,6 +37,7 @@ export class DocumentsController {
         return this.documentsService.getDocuments();
     }
 
+    @IsPublic()
     @UseGuards(AuthGuard)
     @Post('/upload')
     @UseInterceptors(
@@ -61,7 +63,10 @@ export class DocumentsController {
             if (documentData.folderId) {
                 folder = await this.foldersService.getFolderById(documentData.folderId);
 
-                if (folder.order.customer.id !== user.id)
+                if (
+                    folder.order.customer &&
+                    folder.order.customer.id !== user?.id
+                )
                     throw new ForbiddenException('Forbidden access');
 
                 if (folder.order.status !== OrderStatus.PENDING)
@@ -72,13 +77,16 @@ export class DocumentsController {
                 if (documentData.orderId) {
                     order = await this.ordersService.getOrderById(documentData.orderId);
                     
-                    if (order.customer.id !== user.id)
+                    if (
+                        order.customer &&
+                        order.customer.id !== user?.id
+                    )
                         throw new ForbiddenException('Forbidden access');
 
                     if (order.status !== OrderStatus.PENDING)
                         throw new BadRequestException('Order is already being processed');
                 } else {
-                    const customer = await this.customersService.getCustomerById(user.id);
+                    const customer = user && await this.customersService.getCustomerById(user.id);
                     order = await this.ordersService.createOrder(customer);
                 }
 
@@ -116,13 +124,17 @@ export class DocumentsController {
         }
     }
     
+    @IsPublic()
     @UseGuards(AuthGuard)
     @Delete('/:id')
     async deleteDocument(@Param('id') id: string, @Req() req: Request) {
         const document = await this.documentsService.getDocumentById(id);
         const user = req['user'];
 
-        if (document.folder.order.customer.id !== user.id)
+        if (
+            document.folder.order.customer &&
+            document.folder.order.customer.id !== user?.id
+        )
             throw new ForbiddenException('Forbidden access');
 
         if (document.folder.order.status !== OrderStatus.PENDING)
