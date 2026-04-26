@@ -8,7 +8,7 @@ import { documentFileFilter } from "@modules/documents/helpers/documentFileFilte
 import { join } from "path";
 import { rootPath } from "@config/envs";
 import { FoldersService } from "@modules/folders/services/folders.service";
-import { OrdersService } from "@modules/orders/orders.service";
+import { OrdersService } from "@modules/orders/services/orders.service";
 import { Request } from "express";
 import { UploadDocumentDto } from "@modules/documents/dtos/uploadDocument.dto";
 import { AuthGuard } from "@modules/auth/guards/auth.guard";

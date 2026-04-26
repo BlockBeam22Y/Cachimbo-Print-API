@@ -1,6 +1,6 @@
 import { BadRequestException, Body, Controller, Delete, ForbiddenException, Get, Inject, Param, Post, Put, Req, UseGuards } from "@nestjs/common";
 import { FoldersService } from "@modules/folders/services/folders.service";
-import { OrdersService } from "@modules/orders/orders.service";
+import { OrdersService } from "@modules/orders/services/orders.service";
 import { FolderColorsService } from "@modules/folders/services/folderColors.service";
 import { Request } from "express";
 import { AuthGuard } from "@modules/auth/guards/auth.guard";

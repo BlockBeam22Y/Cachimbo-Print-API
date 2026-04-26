@@ -27,6 +27,7 @@ export class OrdersService {
             where: { id },
             relations: {
                 customer: true,
+                detail: true,
                 folders: {
                     documents: true,
                 },

@@ -1,6 +1,6 @@
 import { Module } from "@nestjs/common";
 import { OrdersController } from "@modules/orders/orders.controller";
-import { OrdersService } from "@modules/orders/orders.service";
+import { OrdersService } from "@modules/orders/services/orders.service";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { Order } from "@modules/orders/entities/order.entity";
 import { CustomersModule } from "@modules/customers/customers.module";
@@ -9,6 +9,7 @@ import { Folder } from "@modules/folders/entities/folder.entity";
 import { Document } from "@modules/documents/entities/document.entity";
 import { FilesModule } from "@modules/files/files.module";
 import { OrderDetail } from "./entities/orderDetail.entity";
+import { OrderDetailsService } from "./services/orderDetails.service";
 
 @Module({
     imports: [
@@ -23,7 +24,10 @@ import { OrderDetail } from "./entities/orderDetail.entity";
         AuthModule,
     ],
     controllers: [OrdersController],
-    providers: [OrdersService],
+    providers: [
+        OrdersService,
+        OrderDetailsService,
+    ],
     exports: [OrdersService],
 })
 export class OrdersModule {}
