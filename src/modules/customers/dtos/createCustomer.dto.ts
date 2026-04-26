@@ -6,4 +6,6 @@ export class CreateCustomerDto {
     phone: string;
 
     password: string;
+
+    confirmPassword: string;
 }

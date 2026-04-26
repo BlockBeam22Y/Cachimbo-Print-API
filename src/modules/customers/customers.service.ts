@@ -28,6 +28,16 @@ export class CustomersService {
     }
 
     async createCustomer(customerData: CreateCustomerDto) {
+        if (customerData.password !== customerData.confirmPassword)
+            throw new BadRequestException('Passwords do not match');
+
+        const existingCustomer = await this.customersRepository.findOneBy({
+            email: customerData.email,
+        });
+
+        if (existingCustomer)
+            throw new BadRequestException('Email already registered');
+
         const hashedPassword = await hash(customerData.password, 10);
 
         const customer = this.customersRepository.create({
