@@ -11,14 +11,6 @@ export class AuthGuard implements CanActivate {
     ) {}
 
     async canActivate(context: ExecutionContext) {
-        const isPublic = this.reflector.getAllAndOverride<boolean>('isPublic', [
-            context.getClass(),
-            context.getHandler(),
-        ]);
-
-        if (isPublic)
-            return true;
-        
         const request = context.switchToHttp().getRequest<Request>();
 
         const authorization = request.headers.authorization ?? '';
@@ -30,6 +22,14 @@ export class AuthGuard implements CanActivate {
             request['user'] = payload;
             return true;
         } catch {
+            const isPublic = this.reflector.getAllAndOverride<boolean>('isPublic', [
+                context.getClass(),
+                context.getHandler(),
+            ]);
+
+            if (isPublic)
+                return true;
+
             throw new UnauthorizedException('Invalid token');
         }
     }

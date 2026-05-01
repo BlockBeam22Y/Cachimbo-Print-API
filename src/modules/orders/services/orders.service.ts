@@ -64,6 +64,12 @@ export class OrdersService {
 
         throw new BadRequestException('Cannot update order status');
     }
+
+    async updateOrderCustomer(order: Order, customer: Customer) {
+        order.customer = customer;
+
+        await this.ordersRepository.save(order);
+    }
     
     async updateOrderPriceOrDelete(orderId: number) {
         const order = await this.ordersRepository.findOneOrFail({

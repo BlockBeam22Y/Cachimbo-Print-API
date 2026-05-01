@@ -13,7 +13,6 @@ import { IsPublic } from "@modules/auth/decorators/isPublic.decorator";
 export class FoldersController {
     constructor(
         private readonly foldersService: FoldersService,
-        private readonly folderColorsService: FolderColorsService,
         @Inject(IFilesService)
         private readonly filesServices: IFilesService,
         private readonly ordersService: OrdersService,

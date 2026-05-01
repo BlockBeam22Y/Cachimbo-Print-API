@@ -8,8 +8,8 @@ import { AuthModule } from "@modules/auth/auth.module";
 import { Folder } from "@modules/folders/entities/folder.entity";
 import { Document } from "@modules/documents/entities/document.entity";
 import { FilesModule } from "@modules/files/files.module";
-import { OrderDetail } from "./entities/orderDetail.entity";
-import { OrderDetailsService } from "./services/orderDetails.service";
+import { OrderDetail } from "@modules/orders/entities/orderDetail.entity";
+import { OrderDetailsService } from "@modules/orders/services/orderDetails.service";
 
 @Module({
     imports: [

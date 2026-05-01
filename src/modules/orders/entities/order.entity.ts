@@ -1,7 +1,7 @@
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Customer } from "@modules/customers/entities/customer.entity";
 import { Folder } from "@modules/folders/entities/folder.entity";
-import { OrderDetail } from "./orderDetail.entity";
+import { OrderDetail } from "@modules/orders/entities/orderDetail.entity";
 
 @Entity('Order')
 export class Order {

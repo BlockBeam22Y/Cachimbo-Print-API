@@ -5,14 +5,16 @@ import { Request } from "express";
 import { IFilesService } from "@modules/files/interfaces/filesService.interface";
 import { OrderStatus } from "@modules/orders/interfaces/orderStatus.enum";
 import { IsPublic } from "@modules/auth/decorators/isPublic.decorator";
-import { UpdateOrderDetailDto } from "./dtos/updateOrderDetail.dto";
-import { OrderDetailsService } from "./services/orderDetails.service";
+import { UpdateOrderDetailDto } from "@modules/orders/dtos/updateOrderDetail.dto";
+import { OrderDetailsService } from "@modules/orders/services/orderDetails.service";
+import { CustomersService } from "@modules/customers/customers.service";
 
 @Controller('orders')
 export class OrdersController {
     constructor(
         private readonly ordersService: OrdersService,
         private readonly orderDetailsService: OrderDetailsService,
+        private readonly customersService: CustomersService,
         @Inject(IFilesService)
         private readonly filesService: IFilesService,
     ) {}
@@ -47,6 +49,32 @@ export class OrdersController {
         return {
             updated: true,
             id,
+        };
+    }
+    
+    @UseGuards(AuthGuard)
+    @Put('/customer/:id')
+    async linkCustomerToOrder(@Param('id') id: number, @Req() req: Request) {
+        const order = await this.ordersService.getOrderById(id);
+        const user = req['user'];
+
+        if (order.customer)
+            throw new BadRequestException('Order already belongs to customer');
+
+        if (order.status === OrderStatus.PENDING)
+            throw new BadRequestException('Order checkout must be completed');
+
+        if (order.detail?.email !== user.email)
+            throw new BadRequestException('Emails do not match');
+
+        const customer = await this.customersService.getCustomerById(user.id);
+
+        await this.ordersService.updateOrderCustomer(order, customer);
+        
+        return {
+            updated: true,
+            orderId: order.id,
+            customerId: customer.id,
         };
     }
 
