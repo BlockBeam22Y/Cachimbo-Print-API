@@ -15,7 +15,7 @@ import { AuthGuard } from "@modules/auth/guards/auth.guard";
 import { OrderStatus } from "@modules/orders/interfaces/orderStatus.enum";
 import { Folder } from "@modules/folders/entities/folder.entity";
 import { Order } from "@modules/orders/entities/order.entity";
-import { CustomersService } from "@modules/customers/customers.service";
+import { CustomersService } from "@modules/customers/services/customers.service";
 import { FolderColorsService } from "@modules/folders/services/folderColors.service";
 import { unlink } from "fs/promises";
 import { IsPublic } from "@modules/auth/decorators/isPublic.decorator";

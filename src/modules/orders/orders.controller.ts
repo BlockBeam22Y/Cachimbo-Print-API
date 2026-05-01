@@ -1,4 +1,4 @@
-import { BadRequestException, Body, Controller, Delete, ForbiddenException, Get, Inject, Param, Post, Put, Req, UseGuards } from "@nestjs/common";
+import { BadRequestException, Body, Controller, Delete, ForbiddenException, Get, Inject, Param, Put, Req, UseGuards } from "@nestjs/common";
 import { OrdersService } from "@modules/orders/services/orders.service";
 import { AuthGuard } from "@modules/auth/guards/auth.guard";
 import { Request } from "express";
@@ -7,7 +7,7 @@ import { OrderStatus } from "@modules/orders/interfaces/orderStatus.enum";
 import { IsPublic } from "@modules/auth/decorators/isPublic.decorator";
 import { UpdateOrderDetailDto } from "@modules/orders/dtos/updateOrderDetail.dto";
 import { OrderDetailsService } from "@modules/orders/services/orderDetails.service";
-import { CustomersService } from "@modules/customers/customers.service";
+import { CustomersService } from "@modules/customers/services/customers.service";
 
 @Controller('orders')
 export class OrdersController {
