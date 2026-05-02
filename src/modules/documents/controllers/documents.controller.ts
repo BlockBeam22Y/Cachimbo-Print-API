@@ -1,5 +1,5 @@
 import { BadRequestException, Body, Controller, Delete, ForbiddenException, Get, Inject, Param, Post, Req, UploadedFiles, UseGuards, UseInterceptors } from "@nestjs/common";
-import { DocumentsService } from "@modules/documents/documents.service";
+import { DocumentsService } from "@modules/documents/services/documents.service";
 import { FilesInterceptor } from "@nestjs/platform-express";
 import { IFilesService } from "@modules/files/interfaces/filesService.interface";
 import { diskStorage } from 'multer';
@@ -15,7 +15,6 @@ import { AuthGuard } from "@modules/auth/guards/auth.guard";
 import { OrderStatus } from "@modules/orders/interfaces/orderStatus.enum";
 import { Folder } from "@modules/folders/entities/folder.entity";
 import { Order } from "@modules/orders/entities/order.entity";
-import { CustomersService } from "@modules/customers/services/customers.service";
 import { FolderColorsService } from "@modules/folders/services/folderColors.service";
 import { unlink } from "fs/promises";
 import { IsPublic } from "@modules/auth/decorators/isPublic.decorator";
@@ -29,13 +28,7 @@ export class DocumentsController {
         private readonly foldersService: FoldersService,
         private readonly folderColorsService: FolderColorsService,
         private readonly ordersService: OrdersService,
-        private readonly customersService: CustomersService,
     ) {}
-
-    // @Get()
-    // async getDocuments() {
-    //     return this.documentsService.getDocuments();
-    // }
 
     @IsPublic()
     @UseGuards(AuthGuard)

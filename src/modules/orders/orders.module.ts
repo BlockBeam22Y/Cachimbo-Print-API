@@ -1,5 +1,5 @@
 import { Module } from "@nestjs/common";
-import { OrdersController } from "@modules/orders/orders.controller";
+import { OrdersController } from "@modules/orders/controllers/orders.controller";
 import { OrdersService } from "@modules/orders/services/orders.service";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { Order } from "@modules/orders/entities/order.entity";

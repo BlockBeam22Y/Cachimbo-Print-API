@@ -1,5 +1,5 @@
 import { Module } from "@nestjs/common";
-import { FoldersController } from "@modules/folders/folders.controller";
+import { FoldersController } from "@modules/folders/controllers/folders.controller";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { Folder } from "@modules/folders/entities/folder.entity";
 import { FolderColor } from "@modules/folders/entities/folderColor.entity";

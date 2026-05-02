@@ -1,6 +1,6 @@
 import { Module } from "@nestjs/common";
-import { DocumentsController } from "@modules/documents/documents.controller";
-import { DocumentsService } from "@modules/documents/documents.service";
+import { DocumentsController } from "@modules/documents/controllers/documents.controller";
+import { DocumentsService } from "@modules/documents/services/documents.service";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { Document } from "@modules/documents/entities/document.entity";
 import { FilesModule } from "@modules/files/files.module";

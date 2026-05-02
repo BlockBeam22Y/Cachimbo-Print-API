@@ -5,7 +5,7 @@ import { AuthGuard } from "@modules/auth/guards/auth.guard";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { Customer } from "@modules/customers/entities/customer.entity";
 import { CustomerGuard } from "@modules/auth/guards/customer.guard";
-import { AuthController } from "@modules/auth/auth.controller";
+import { AuthController } from "@modules/auth/controllers/auth.controller";
 import { AuthService } from "@modules/auth/services/auth.service";
 import { User } from "@modules/auth/entities/user.entity";
 import { UserRole } from "@modules/auth/entities/userRole.entity";

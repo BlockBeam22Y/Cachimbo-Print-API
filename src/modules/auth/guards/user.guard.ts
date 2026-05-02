@@ -33,7 +33,6 @@ export class UserGuard implements CanActivate {
             context.getHandler(),
         ]);
 
-
         if (
             (BigInt(user.role.permissionBitField) & permissions) !== permissions
         )

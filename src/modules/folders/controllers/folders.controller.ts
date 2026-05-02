@@ -1,7 +1,6 @@
-import { BadRequestException, Body, Controller, Delete, ForbiddenException, Get, Inject, Param, Post, Put, Req, UseGuards } from "@nestjs/common";
+import { BadRequestException, Body, Controller, Delete, ForbiddenException, Inject, Param, Put, Req, UseGuards } from "@nestjs/common";
 import { FoldersService } from "@modules/folders/services/folders.service";
 import { OrdersService } from "@modules/orders/services/orders.service";
-import { FolderColorsService } from "@modules/folders/services/folderColors.service";
 import { Request } from "express";
 import { AuthGuard } from "@modules/auth/guards/auth.guard";
 import { IFilesService } from "@modules/files/interfaces/filesService.interface";
@@ -17,11 +16,6 @@ export class FoldersController {
         private readonly filesServices: IFilesService,
         private readonly ordersService: OrdersService,
     ) {}
-
-    // @Get()
-    // async getFolders() {
-    //     return this.foldersService.getFolders();
-    // }
 
     @IsPublic()
     @UseGuards(AuthGuard)

@@ -1,5 +1,5 @@
 import { Controller, Param, Post } from "@nestjs/common";
-import { CheckoutService } from "@modules/checkout/checkout.service";
+import { CheckoutService } from "@modules/checkout/services/checkout.service";
 import { OrdersService } from "@modules/orders/services/orders.service";
 import { OrderStatus } from "@modules/orders/interfaces/orderStatus.enum";
 
