@@ -24,9 +24,14 @@ export class OrdersController {
         return this.ordersService.getOrders();
     }
 
+    @Get('/:id')
+    async getOrderById(@Param('id') id: number) {
+        return this.ordersService.getOrderById(id);
+    }
+
     @IsPublic()
     @UseGuards(AuthGuard)
-    @Put('/detail/:id')
+    @Put('/:id/detail')
     async updateOrderDetail(
         @Param('id') id: number,
         @Body() orderDetailData: UpdateOrderDetailDto,
@@ -53,7 +58,7 @@ export class OrdersController {
     }
     
     @UseGuards(AuthGuard)
-    @Put('/customer/:id')
+    @Put('/:id/customer')
     async linkCustomerToOrder(@Param('id') id: number, @Req() req: Request) {
         const order = await this.ordersService.getOrderById(id);
         const user = req['user'];
