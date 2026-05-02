@@ -6,7 +6,7 @@ import { compare, hash } from "bcrypt";
 import { JwtService } from "@nestjs/jwt";
 import { sa } from "@config/envs";
 import { UserRole } from "@modules/auth/entities/userRole.entity";
-import { PermissionFlagsBits } from "../helpers/permissionFlagsBits.helper";
+import { PermissionFlagsBits } from "@modules/auth/helpers/permissionFlagsBits.helper";
 
 @Injectable()
 export class AuthService implements OnModuleInit {

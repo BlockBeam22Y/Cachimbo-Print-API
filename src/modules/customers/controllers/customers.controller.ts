@@ -3,9 +3,9 @@ import { CustomersService } from "@modules/customers/services/customers.service"
 import { CreateCustomerDto } from "@modules/customers/dtos/createCustomer.dto";
 import { LoginCustomerDto } from "@modules/customers/dtos/loginCustomer.dto";
 import { AuthGuard } from "@modules/auth/guards/auth.guard";
-import { CreateCustomerAddressDto } from "./dtos/createCustomerAddress.dto";
+import { CreateCustomerAddressDto } from "@modules/customers/dtos/createCustomerAddress.dto";
 import { Request } from "express";
-import { CustomerAddressesService } from "./services/customerAdresses.service";
+import { CustomerAddressesService } from "@modules/customers/services/customerAddresses.service";
 import { CustomerGuard } from "@modules/auth/guards/customer.guard";
 import { UserGuard } from "@modules/auth/guards/user.guard";
 import { SetPermissions } from "@modules/auth/decorators/setPermissions.decorator";

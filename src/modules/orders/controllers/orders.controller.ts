@@ -18,7 +18,6 @@ export class OrdersController {
     constructor(
         private readonly ordersService: OrdersService,
         private readonly orderDetailsService: OrderDetailsService,
-        private readonly customersService: CustomersService,
         @Inject(IFilesService)
         private readonly filesService: IFilesService,
     ) {}

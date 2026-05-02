@@ -1,4 +1,4 @@
-import { BadRequestException, Body, Controller, Delete, ForbiddenException, Get, Inject, Param, Post, Req, UploadedFiles, UseGuards, UseInterceptors } from "@nestjs/common";
+import { BadRequestException, Body, Controller, Delete, ForbiddenException, Inject, Param, Post, Req, UploadedFiles, UseGuards, UseInterceptors } from "@nestjs/common";
 import { DocumentsService } from "@modules/documents/services/documents.service";
 import { FilesInterceptor } from "@nestjs/platform-express";
 import { IFilesService } from "@modules/files/interfaces/filesService.interface";
