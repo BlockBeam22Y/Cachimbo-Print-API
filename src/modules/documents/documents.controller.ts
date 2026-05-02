@@ -32,10 +32,10 @@ export class DocumentsController {
         private readonly customersService: CustomersService,
     ) {}
 
-    @Get()
-    async getDocuments() {
-        return this.documentsService.getDocuments();
-    }
+    // @Get()
+    // async getDocuments() {
+    //     return this.documentsService.getDocuments();
+    // }
 
     @IsPublic()
     @UseGuards(AuthGuard)

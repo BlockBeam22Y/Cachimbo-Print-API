@@ -18,10 +18,10 @@ export class FoldersController {
         private readonly ordersService: OrdersService,
     ) {}
 
-    @Get()
-    async getFolders() {
-        return this.foldersService.getFolders();
-    }
+    // @Get()
+    // async getFolders() {
+    //     return this.foldersService.getFolders();
+    // }
 
     @IsPublic()
     @UseGuards(AuthGuard)
