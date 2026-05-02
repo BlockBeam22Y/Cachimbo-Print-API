@@ -32,11 +32,11 @@ export class FoldersController {
         @Req() req: Request,
     ) {
         const folder = await this.foldersService.getFolderById(id);
-        const user = req['user'];
+        const data = req['data'];
 
         if (
             folder.order.customer &&
-            folder.order.customer.id !== user?.id
+            folder.order.customer.id !== data?.id
         )
             throw new ForbiddenException('Forbidden access');
 
@@ -58,11 +58,11 @@ export class FoldersController {
     @Delete('/:id')
     async deleteFolder(@Param('id') id: string, @Req() req: Request) {
         const folder = await this.foldersService.getFolderById(id);
-        const user = req['user'];
+        const data = req['data'];
 
         if (
             folder.order.customer &&
-            folder.order.customer.id !== user?.id
+            folder.order.customer.id !== data?.id
         )
             throw new ForbiddenException('Forbidden access');
 

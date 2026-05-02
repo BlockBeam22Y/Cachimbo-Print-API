@@ -55,7 +55,7 @@ export class DocumentsController {
         @Req() req: Request,
     ) {
         try {
-            const user = req['user'];
+            const data = req['data'];
 
             let folder: Folder;
             let order: Order;
@@ -65,7 +65,7 @@ export class DocumentsController {
 
                 if (
                     folder.order.customer &&
-                    folder.order.customer.id !== user?.id
+                    folder.order.customer.id !== data?.id
                 )
                     throw new ForbiddenException('Forbidden access');
 
@@ -79,14 +79,14 @@ export class DocumentsController {
                     
                     if (
                         order.customer &&
-                        order.customer.id !== user?.id
+                        order.customer.id !== data?.id
                     )
                         throw new ForbiddenException('Forbidden access');
 
                     if (order.status !== OrderStatus.PENDING)
                         throw new BadRequestException('Order is already being processed');
                 } else {
-                    const customer = user && await this.customersService.getCustomerById(user.id);
+                    const customer = data?.customer;
                     order = await this.ordersService.createOrder(customer);
                 }
 
@@ -129,11 +129,11 @@ export class DocumentsController {
     @Delete('/:id')
     async deleteDocument(@Param('id') id: string, @Req() req: Request) {
         const document = await this.documentsService.getDocumentById(id);
-        const user = req['user'];
+        const data = req['data'];
 
         if (
             document.folder.order.customer &&
-            document.folder.order.customer.id !== user?.id
+            document.folder.order.customer.id !== data?.id
         )
             throw new ForbiddenException('Forbidden access');
 

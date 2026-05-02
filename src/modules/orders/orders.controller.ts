@@ -8,6 +8,7 @@ import { IsPublic } from "@modules/auth/decorators/isPublic.decorator";
 import { UpdateOrderDetailDto } from "@modules/orders/dtos/updateOrderDetail.dto";
 import { OrderDetailsService } from "@modules/orders/services/orderDetails.service";
 import { CustomersService } from "@modules/customers/services/customers.service";
+import { CustomerGuard } from "@modules/auth/guards/customer.guard";
 
 @Controller('orders')
 export class OrdersController {
@@ -38,11 +39,11 @@ export class OrdersController {
         @Req() req: Request,
     ) {
         const order = await this.ordersService.getOrderById(id);
-        const user = req['user'];
+        const data = req['data'];
         
         if (
             order.customer &&
-            order.customer.id !== user?.id
+            order.customer.id !== data?.id
         )
             throw new ForbiddenException('Forbidden access');
 
@@ -57,11 +58,11 @@ export class OrdersController {
         };
     }
     
-    @UseGuards(AuthGuard)
+    @UseGuards(AuthGuard, CustomerGuard)
     @Put('/:id/customer')
     async linkCustomerToOrder(@Param('id') id: number, @Req() req: Request) {
         const order = await this.ordersService.getOrderById(id);
-        const user = req['user'];
+        const data = req['data'];
 
         if (order.customer)
             throw new BadRequestException('Order already belongs to customer');
@@ -69,17 +70,15 @@ export class OrdersController {
         if (order.status === OrderStatus.PENDING)
             throw new BadRequestException('Order checkout must be completed');
 
-        if (order.detail?.email !== user.email)
+        if (order.detail?.email !== data.email)
             throw new BadRequestException('Emails do not match');
 
-        const customer = await this.customersService.getCustomerById(user.id);
-
-        await this.ordersService.updateOrderCustomer(order, customer);
+        await this.ordersService.updateOrderCustomer(order, data.customer);
         
         return {
             updated: true,
             orderId: order.id,
-            customerId: customer.id,
+            customerId: data.customer.id,
         };
     }
 
@@ -88,11 +87,11 @@ export class OrdersController {
     @Delete('/:id')
     async deleteOrder(@Param('id') id: number, @Req() req: Request) {
         const order = await this.ordersService.getOrderById(id);
-        const user = req['user'];
+        const data = req['data'];
 
         if (
             order.customer &&
-            order.customer.id !== user?.id
+            order.customer.id !== data?.id
         )
             throw new ForbiddenException('Forbidden access');
 

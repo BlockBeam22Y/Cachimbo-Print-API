@@ -19,7 +19,7 @@ export class AuthGuard implements CanActivate {
         try {
             const payload = await this.jwtService.verifyAsync(token);
 
-            request['user'] = payload;
+            request['data'] = payload;
             return true;
         } catch {
             const isPublic = this.reflector.getAllAndOverride<boolean>('isPublic', [

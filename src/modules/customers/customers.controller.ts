@@ -6,6 +6,7 @@ import { AuthGuard } from "@modules/auth/guards/auth.guard";
 import { CreateCustomerAddressDto } from "./dtos/createCustomerAddress.dto";
 import { Request } from "express";
 import { CustomerAddressesService } from "./services/customerAdresses.service";
+import { CustomerGuard } from "@modules/auth/guards/customer.guard";
 
 @Controller('customers')
 export class CustomersController {
@@ -19,7 +20,15 @@ export class CustomersController {
         return this.customersService.getCustomers();
     }
 
-    @Get('/:id')
+    @UseGuards(AuthGuard, CustomerGuard)
+    @Get('/info')
+    async getCustomerInfo(@Req() req: Request) {
+        const data = req['data'];
+
+        return data.customer;
+    }
+
+    @Get('/info/:id')
     async getCustomerById(@Param('id') id: string) {
         return this.customersService.getCustomerById(id);
     }
@@ -43,16 +52,15 @@ export class CustomersController {
         return { token };
     }
 
-    @UseGuards(AuthGuard)
+    @UseGuards(AuthGuard, CustomerGuard)
     @Post('/addresses')
     async createCustomerAddress(
         @Req() req: Request,
         @Body() addressData: CreateCustomerAddressDto,
     ) {
-        const user = req['user'];
-        const customer = await this.customersService.getCustomerById(user.id);
+        const data = req['data'];
 
-        const address = await this.customerAddressesService.createCustomerAddress(addressData, customer);
+        const address = await this.customerAddressesService.createCustomerAddress(addressData, data.customer);
         
         return {
             created: true,
