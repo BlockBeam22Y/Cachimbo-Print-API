@@ -8,6 +8,11 @@ export const db = {
     password: process.env.DB_PASS,
 };
 
+export const sa = {
+    email: process.env.SA_EMAIL,
+    password: process.env.SA_PASS ?? '',
+};
+
 export const hostURL = process.env.HOST_API;
 export const jwtSecret = process.env.JWT_SECRET;
 export const connectionString = process.env.AZ_CONNECTION_STRING ?? '';

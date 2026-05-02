@@ -12,6 +12,7 @@ import { FilesModule } from '@modules/files/files.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { CheckoutModule } from '@modules/checkout/checkout.module';
+import { AuthModule } from '@modules/auth/auth.module';
 
 @Module({
   imports: [
@@ -40,6 +41,7 @@ import { CheckoutModule } from '@modules/checkout/checkout.module';
       },
     }),
     FilesModule,
+    AuthModule,
     CustomersModule,
     OrdersModule,
     FoldersModule,

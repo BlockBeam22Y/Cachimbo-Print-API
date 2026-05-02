@@ -5,6 +5,9 @@ import { AuthGuard } from "@modules/auth/guards/auth.guard";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { Customer } from "@modules/customers/entities/customer.entity";
 import { CustomerGuard } from "@modules/auth/guards/customer.guard";
+import { AuthController } from "./auth.controller";
+import { AuthService } from "./auth.service";
+import { User } from "./entities/user.entity";
 
 @Module({
     imports: [
@@ -14,10 +17,14 @@ import { CustomerGuard } from "@modules/auth/guards/customer.guard";
                 expiresIn: '1h',
             },
         }),
-        TypeOrmModule.forFeature([Customer]),
+        TypeOrmModule.forFeature([
+            User,
+            Customer,
+        ]),
     ],
-    controllers: [],
+    controllers: [AuthController],
     providers: [
+        AuthService,
         AuthGuard,
         CustomerGuard,
     ],
