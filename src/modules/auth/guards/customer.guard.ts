@@ -15,7 +15,7 @@ export class CustomerGuard implements CanActivate {
         const data = request['data'];
 
         if (data) {
-            const customer = data && await this.customersRepository.findOne({
+            const customer = await this.customersRepository.findOne({
                 where: {
                     id: data.id,
                 },

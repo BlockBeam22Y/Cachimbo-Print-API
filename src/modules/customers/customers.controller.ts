@@ -7,6 +7,9 @@ import { CreateCustomerAddressDto } from "./dtos/createCustomerAddress.dto";
 import { Request } from "express";
 import { CustomerAddressesService } from "./services/customerAdresses.service";
 import { CustomerGuard } from "@modules/auth/guards/customer.guard";
+import { UserGuard } from "@modules/auth/guards/user.guard";
+import { SetPermissions } from "@modules/auth/decorators/setPermissions.decorator";
+import { PermissionFlagsBits } from "@modules/auth/helpers/permissionFlagsBits.helper";
 
 @Controller('customers')
 export class CustomersController {
@@ -15,6 +18,8 @@ export class CustomersController {
         private readonly customerAddressesService: CustomerAddressesService,
     ) {}
 
+    @SetPermissions(PermissionFlagsBits.ViewCustomers)
+    @UseGuards(AuthGuard, UserGuard)
     @Get()
     async getCustomers() {
         return this.customersService.getCustomers();
@@ -28,6 +33,8 @@ export class CustomersController {
         return data.customer;
     }
 
+    @SetPermissions(PermissionFlagsBits.ViewCustomers)
+    @UseGuards(AuthGuard, UserGuard)
     @Get('/info/:id')
     async getCustomerById(@Param('id') id: string) {
         return this.customersService.getCustomerById(id);

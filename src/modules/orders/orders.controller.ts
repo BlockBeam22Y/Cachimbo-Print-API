@@ -9,6 +9,9 @@ import { UpdateOrderDetailDto } from "@modules/orders/dtos/updateOrderDetail.dto
 import { OrderDetailsService } from "@modules/orders/services/orderDetails.service";
 import { CustomersService } from "@modules/customers/services/customers.service";
 import { CustomerGuard } from "@modules/auth/guards/customer.guard";
+import { UserGuard } from "@modules/auth/guards/user.guard";
+import { SetPermissions } from "@modules/auth/decorators/setPermissions.decorator";
+import { PermissionFlagsBits } from "@modules/auth/helpers/permissionFlagsBits.helper";
 
 @Controller('orders')
 export class OrdersController {
@@ -20,11 +23,14 @@ export class OrdersController {
         private readonly filesService: IFilesService,
     ) {}
 
+    @SetPermissions(PermissionFlagsBits.ViewOrders)
+    @UseGuards(AuthGuard, UserGuard)
     @Get()
     async getOrders() {
         return this.ordersService.getOrders();
     }
 
+    @SetPermissions(PermissionFlagsBits.ViewOrders)
     @Get('/:id')
     async getOrderById(@Param('id') id: number) {
         return this.ordersService.getOrderById(id);

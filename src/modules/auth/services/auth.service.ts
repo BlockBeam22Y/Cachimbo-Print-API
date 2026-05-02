@@ -1,16 +1,20 @@
 import { BadRequestException, Injectable, OnModuleInit } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { User } from "./entities/user.entity";
+import { User } from "@modules/auth/entities/user.entity";
 import { Repository } from "typeorm";
 import { compare, hash } from "bcrypt";
 import { JwtService } from "@nestjs/jwt";
 import { sa } from "@config/envs";
+import { UserRole } from "@modules/auth/entities/userRole.entity";
+import { PermissionFlagsBits } from "../helpers/permissionFlagsBits.helper";
 
 @Injectable()
 export class AuthService implements OnModuleInit {
     constructor(
         @InjectRepository(User)
         private readonly usersRepository: Repository<User>,
+        @InjectRepository(UserRole)
+        private readonly userRolesRepository: Repository<UserRole>,
         private readonly jwtService: JwtService,
     ) {}
 
@@ -18,13 +22,28 @@ export class AuthService implements OnModuleInit {
         if (await this.usersRepository.count())
             return;
 
+        if (await this.userRolesRepository.count())
+            return;
+
+        const role = this.userRolesRepository.create({
+            name: 'SA',
+            permissionBitField:
+                Object.values(PermissionFlagsBits)
+                    .reduce((acc, bit) => {
+                        acc |= bit;
+
+                        return acc;
+                    }, 0n),
+        });
+        await this.userRolesRepository.save(role);
+
         const hashedPassword = await hash(sa.password, 10);
         
         const saUser = this.usersRepository.create({
             email: sa.email,
             password: hashedPassword,
+            role,
         });
-
         await this.usersRepository.save(saUser);
     }
 
